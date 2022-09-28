@@ -1,8 +1,14 @@
+using NoCodeApi.Api.Extensions;
+using NoCodeApi.Api.Database;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddAuthentication();
+builder.AddDbExtensions();
+builder.Services.AddIdentityExtensions();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -18,8 +24,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+Seed.SeedData(app);
 
 app.Run();
